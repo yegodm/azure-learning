@@ -5,7 +5,7 @@ import io.vertx.core.http.HttpServerOptions
 
 fun main() {
     val vertx = Vertx.vertx()
-    val port = 8080
+    val port = 80
     val server = vertx.createHttpServer(
         HttpServerOptions()
             .setPort(port)
