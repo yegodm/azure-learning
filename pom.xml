@@ -79,6 +79,10 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0-M1</version>
             </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
         </plugins>
     </build>
 
