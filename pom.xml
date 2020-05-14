@@ -4,11 +4,11 @@
 
     <groupId>org.xoled</groupId>
     <artifactId>azure-learning</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/yegodm/azure-learning.git</developerConnection>
-      <tag>azure-learning-1.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
