@@ -1,18 +1,41 @@
 package org.yegodm.az
 
 import io.vertx.core.Vertx
-import io.vertx.core.http.HttpServerOptions
+import io.vertx.core.logging.LoggerFactory
+import io.vertx.ext.web.Router
+import io.vertx.ext.web.RoutingContext
+
+
+val log = LoggerFactory.getLogger("app")
 
 fun main() {
+    log.info("Starting service...")
     val vertx = Vertx.vertx()
-    val port = 80
-    val server = vertx.createHttpServer(
-        HttpServerOptions()
-            .setPort(port)
-    )
-    server.requestHandler { req ->
-        req.response().end("Hello, ${req.remoteAddress()}!")
+    val port = when (System.getProperty("env", "PROD")) {
+        "DEV", "dev" -> 8080
+        else -> 80
     }
-    println("Listening at $port")
-    server.listen()
+    val server = vertx.createHttpServer()
+    val router = Router.router(vertx)
+        .apply {
+            route("/teams/test")
+                .consumes("application/json")
+                .handler(RoutingContext::testTab)
+            route("/teams")
+                .handler(RoutingContext::appInfo)
+        }
+
+
+    log.info("Listening at $port")
+    server
+        .requestHandler(router)
+        .listen(port)
 }
+
+fun RoutingContext.appInfo() =
+    response().end("Teams Test App")
+
+fun RoutingContext.testTab() =
+    response()
+        .setStatusCode(200)
+        .end("Nothing here yet")
