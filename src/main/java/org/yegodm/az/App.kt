@@ -4,6 +4,7 @@ import io.vertx.core.Vertx
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
+import io.vertx.ext.web.handler.BodyHandler
 
 
 val log = LoggerFactory.getLogger("app")
@@ -21,6 +22,10 @@ fun main() {
             route("/teams/test")
                 .consumes("application/json")
                 .handler(RoutingContext::testTab)
+            post("/teams/discover")
+                .consumes("application/json")
+                .handler(BodyHandler.create())
+                .handler(RoutingContext::discover)
             route("/teams")
                 .handler(RoutingContext::appInfo)
         }
@@ -39,3 +44,8 @@ fun RoutingContext.testTab() =
     response()
         .setStatusCode(200)
         .end("Nothing here yet")
+
+fun RoutingContext.discover() {
+    log.info("Payload: ${this.bodyAsJson}")
+    response().end("Done.")
+}
