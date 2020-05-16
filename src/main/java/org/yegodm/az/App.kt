@@ -18,24 +18,35 @@ fun main() {
         else -> 80
     }
     val server = vertx.createHttpServer()
+        .exceptionHandler { error ->
+            log.error("HTTP Server error", error)
+        }
     val router = Router.router(vertx)
         .apply {
             route("/teams/test")
-                .consumes("application/json")
                 .handler(RoutingContext::testTab)
+            route("/teams/privacy")
+                .handler(RoutingContext::privacy)
+            get("/teams/terms")
+                .handler(RoutingContext::termsOfUse)
             post("/teams/discover")
                 .consumes("application/json")
                 .handler(BodyHandler.create())
                 .handler(RoutingContext::discover)
+
             route("/teams")
                 .handler(RoutingContext::appInfo)
         }
-
 
     log.info("Listening at $port")
     server
         .requestHandler(router)
         .listen(port)
+}
+
+fun RoutingContext.error(statusCode: Int) {
+    log.error("Error processing ${normalisedPath()}")
+    fail(statusCode)
 }
 
 fun RoutingContext.appInfo() =
@@ -48,5 +59,11 @@ fun RoutingContext.testTab() =
 
 fun RoutingContext.discover() {
     log.info("Payload: ${this.bodyAsJson}")
-    response().end("Done.")
+    return response().end("Done.")
 }
+
+fun RoutingContext.privacy() =
+    response().end("Test app")
+
+fun RoutingContext.termsOfUse() =
+    response().end("MIT")
