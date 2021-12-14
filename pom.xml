@@ -27,7 +27,7 @@
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 
         <vertx.version>3.8.5</vertx.version>
-        <log4j.version>2.13.2</log4j.version>
+        <log4j.version>2.16.0</log4j.version>
     </properties>
 
     <dependencies>
